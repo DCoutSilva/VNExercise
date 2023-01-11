@@ -1,0 +1,122 @@
+package com.visualnuts;
+
+import java.io.FileReader;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+import com.visualnuts.model.OfficialLanguages;
+
+@SpringBootApplication
+public class Exercise2Application {
+
+	public static void main(String[] args) {
+		SpringApplication.run(Exercise2Application.class, args);
+		List<OfficialLanguages> exerciseList = readFromFile("C:/Dev/entry.json");
+
+	/*	
+	*	Write a function in Java that:
+	*		- returns the number of countries in the world
+	*		- finds the country with the most official languages, where they officially speak German (de).
+	*		- that counts all the official languages spoken in the listed countries.
+	*		- to find the country with the highest number of official languages.
+	*		- to find the most common official language(s), of all countries.
+	*		
+	*/
+		System.out.println("The number of countries in the world as I know are "+ exerciseList.size());
+		
+		System.out.println("The country with most languages witch includes German is " + countryDEMostLanguages(exerciseList));
+		
+		
+		
+		Map<String,Integer> langs = new HashMap<String, Integer>();
+		Integer maxLanguages =0;
+		String countryMaxLanguages = "";
+		
+		Integer maxCountries = 0;
+		String langMaxCountries = "";
+		for(OfficialLanguages entry: exerciseList) {
+			if(entry.getLanguages().size()> maxLanguages) {
+				maxLanguages = entry.getLanguages().size();
+				countryMaxLanguages = entry.getCountry();
+			}
+			for(String language: entry.getLanguages()) {
+				if(langs.containsKey(language)) {
+					Integer i = langs.get(language)+1;
+					langs.put(language, i);
+				}else {
+					langs.put(language, 1);
+				}
+				
+				if (langs.get(language) > maxCountries) {
+					maxCountries = langs.get(language);
+					langMaxCountries = language;
+				}
+			}
+		}
+		
+		
+		System.out.println("The total amount of spoken languages is: "+ langs.size());
+		
+		System.out.println("The country with the highest number of official languages is: " + countryMaxLanguages);
+		
+		System.out.println("The most commom official Language is: " + langMaxCountries);
+	}
+	
+	
+
+
+	private static String countryDEMostLanguages(List<OfficialLanguages> world) {
+ 		int max = 0;
+ 		String answer = "";
+		for(OfficialLanguages country: world) {
+			if(country.getLanguages().contains("de") && country.getLanguages().size()> max) {
+				answer = country.getCountry();
+				max = country.getLanguages().size();
+			}
+		}
+		return answer;
+	}
+
+
+	private static List<OfficialLanguages> readFromFile(String filePath){
+		//reading data from JSON file
+				JSONParser jsonParser = new JSONParser();
+				List<OfficialLanguages> entryFile = new ArrayList<OfficialLanguages>();
+				try {
+					JSONArray jsonObject = (JSONArray) jsonParser.parse(new FileReader(filePath));
+
+					Iterator<JSONObject> iterator = jsonObject.iterator();
+					
+					while(iterator.hasNext()) {
+					    JSONObject current = iterator.next();
+					    String country = (String)current.get("country");			    
+					    JSONArray jsonLanguages = (JSONArray) current.get("languages");
+					    
+					    Iterator<JSONObject> languagesIterator = jsonLanguages.iterator();
+					    List<String> languages = new ArrayList<String>();
+					    while (languagesIterator.hasNext()) {
+						    String lang = (String)((Object)languagesIterator.next());
+						    languages.add(lang);
+						    
+					   }
+					   
+					   entryFile.add(new OfficialLanguages(country, languages));
+					}
+				}catch(Exception e) {
+					System.out.println("\n\nException opening file: "+ e.getMessage()+"\n\n");
+					e.printStackTrace();
+				}
+				return entryFile;
+
+	}
+
+}

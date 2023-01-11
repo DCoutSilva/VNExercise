@@ -1,0 +1,5 @@
+package com.visualnuts.repository;
+
+public interface OfficialLanguagesRepository {
+
+}

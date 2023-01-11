@@ -1,0 +1,7 @@
+package com.visualnuts.repository;
+
+import com.visualnuts.model.OfficialLanguages;
+
+public interface OfficialLanguagesRepository extends JPARepository<OfficialLanguages,Long>{
+
+}

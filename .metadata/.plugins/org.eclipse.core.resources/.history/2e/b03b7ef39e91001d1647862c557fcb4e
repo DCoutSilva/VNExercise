@@ -1,0 +1,28 @@
+package com.visualnuts;
+
+import java.io.File;
+import java.util.Scanner;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class Exercise2Application {
+
+	public static void main(String[] args) {
+		SpringApplication.run(Exercise2Application.class, args);
+		
+		try {
+		File myObj = new File("entry.json");
+	      Scanner myReader = new Scanner(myObj);
+	      while (myReader.hasNextLine()) {
+	        String data = myReader.nextLine();
+	        System.out.println(data);
+	      }
+	      myReader.close();
+		}catch(Exception e) {
+			System.out.println("\n\n\n Exception opening file: "+ e.getMessage());
+		}
+	}
+
+}

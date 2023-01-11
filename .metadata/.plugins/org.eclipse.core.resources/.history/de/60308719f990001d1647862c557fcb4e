@@ -1,0 +1,44 @@
+package com.visualnuts.model;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name="OfficialLanguage")
+public class OfficialLanguages {
+
+	private String country;
+	
+	private String language;
+	
+	public OfficialLanguages() {}
+	
+	public OfficialLanguages(String country, String language) {
+		this.country = country;
+		this.language = language;
+	}
+	
+	public OfficialLanguages(String country, String[] languages) {
+		for(String language: languages) {
+			new OfficialLanguages(country, language);
+		}
+	}
+
+	public String getCountry() {
+		return country;
+	}
+
+	public void setCountry(String country) {
+		this.country = country;
+	}
+
+	public String getLanguage() {
+		return language;
+	}
+
+	public void setLanguage(String language) {
+		this.language = language;
+	}
+	
+	
+}

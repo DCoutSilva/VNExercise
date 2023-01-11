@@ -1,0 +1,17 @@
+package com.visualnuts.repository;
+
+import java.util.Optional;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+
+import com.visualnuts.model.OfficialLanguages;
+
+public interface OfficialLanguagesRepository extends JpaRepository<OfficialLanguages,Long>{
+
+	@Query("SELECT COUNT(DISTINCT ol.country) countries FROM OfficialLanguages ol")
+	Optional<Double> getCountriesCount();
+	
+//	@Query("SELECT ol.country FROM OfficialLanguages ol where")
+//	String
+}

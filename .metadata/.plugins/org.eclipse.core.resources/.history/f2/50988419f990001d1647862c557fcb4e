@@ -1,0 +1,5 @@
+package com.visualnuts.controller;
+
+public class RestController {
+
+}

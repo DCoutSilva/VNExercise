@@ -1,0 +1,38 @@
+package com.visualnuts.controller;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.visualnuts.model.OLHelper;
+import com.visualnuts.model.OfficialLanguages;
+import com.visualnuts.repository.OfficialLanguagesRepository;
+
+@CrossOrigin(origins = "http://localhost:8081")
+@RestController
+@RequestMapping("/api")
+public class MainController {
+	
+	@Autowired
+	OfficialLanguagesRepository languageRepository;
+	
+	@PostMapping
+	public ResponseEntity<List<OLHelper>> postLanguages(@RequestBody OLHelper[] listCountries){
+		List<OfficialLanguages> officialLanguages = new ArrayList<OfficialLanguages>();
+		for(OLHelper entry:listCountries) {
+			OfficialLanguages ofcLang = new OLHelper(entry.getCountry(), entry.getLanguages());
+			officialLanguages.add(ofcLang);
+			languageRepository.save(ofcLang);
+		}
+		return new ResponseEntity<List<OLHelper>>(HttpStatus.OK);
+	}
+
+}

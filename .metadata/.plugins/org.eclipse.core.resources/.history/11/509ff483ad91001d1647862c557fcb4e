@@ -1,0 +1,77 @@
+package com.visualnuts;
+
+import java.io.File;
+import java.io.FileReader;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Scanner;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.visualnuts.model.OfficialLanguages;
+
+@SpringBootApplication
+public class Exercise2Application {
+
+	public static void main(String[] args) {
+		SpringApplication.run(Exercise2Application.class, args);
+		
+		//reading data from JSON file
+		JSONParser jsonParser = new JSONParser();
+		try {
+			JSONArray jsonObject = (JSONArray) jsonParser.parse(new FileReader("C:/Dev/entry.json"));
+			//JSONArray jsonArray = (JSONArray) jsonObject.get("");
+			Iterator<JSONObject> iterator = jsonObject.iterator();
+			List<OfficialLanguages> entryFile = new ArrayList<OfficialLanguages>();
+			
+			while(iterator.hasNext()) {
+			    JSONObject current = iterator.next();
+			    String country = (String)current.get("country");			    
+			    JSONArray JSONLanguages = (JSONArray) current.get("languages");
+			    System.out.println(JSONLanguages);
+
+			    
+			    Iterator<JSONObject> languagesIterator = JSONLanguages.iterator();
+			    List<String> languages = new ArrayList<String>();
+			    while (languagesIterator.hasNext()) {
+			    	//System.out.println(languagesIterator.next());
+				    String lang = (String)((Object)languagesIterator.next());
+				    //String l = (String) lang.get("");
+//				    //languages.add(lang);
+				    System.out.println(lang);
+			   }
+			   
+			   
+			   //entryFile.add(new OfficialLanguages(country, languages));
+			}
+			
+		}catch(Exception e) {
+			System.out.println("\n\nException opening file: "+ e.getMessage()+"\n\n");
+			e.printStackTrace();
+		}
+//		
+//		String jsonFile = "";
+//		try {
+//		File myObj = new File("C:/Dev/entry.json");
+//	      Scanner myReader = new Scanner(myObj);
+//	      while (myReader.hasNextLine()) {
+//	        String data = myReader.nextLine();
+//	        System.out.println(data);
+//	        jsonFile = jsonFile.concat(data);
+//	      }
+//	      myReader.close();
+//		}catch(Exception e) {
+//			System.out.println("\n\n\n Exception opening file: "+ e.getMessage());
+//		}
+//		
+		//parsing Json
+
+	}
+
+}

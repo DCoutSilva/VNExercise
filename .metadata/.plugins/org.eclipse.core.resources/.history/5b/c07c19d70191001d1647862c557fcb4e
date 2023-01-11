@@ -1,0 +1,9 @@
+package com.visualnuts.repository;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.visualnuts.model.OfficialLanguages;
+
+public interface OfficialLanguagesRepository extends JpaRepository<OfficialLanguages,Long>{
+
+}
